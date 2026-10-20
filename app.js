@@ -2023,10 +2023,10 @@ function applyAllieviFilters() {
 }
 
 const ALLIEVI_THEAD = `<colgroup>
-  <col style="width:25%"><col style="width:13%"><col style="width:14%">
-  <col style="width:15%"><col style="width:19%"><col style="width:19%">
+  <col style="width:22%"><col style="width:12%"><col style="width:12%"><col style="width:13%">
+  <col style="width:13%"><col style="width:16%"><col style="width:12%">
 </colgroup><thead><tr>
-  <th>Nome completo</th><th>Tipo</th><th>Tesseramento</th>
+  <th>Nome completo</th><th>Tipo</th><th>Data di nascita</th><th>Tesseramento</th>
   <th>Cellulare</th><th>Mail</th><th>Note</th>
 </tr></thead>`;
 
@@ -2039,6 +2039,7 @@ function allievoRowHtml(r) {
         <span style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;">${escHtml(r.nomeCompleto)}</span>
       </td>
       <td><span style="${badgeStyle}">${escHtml(r.tipo)}</span></td>
+      <td style="color:var(--text-muted);white-space:nowrap;">${r.dataNascita ? fmtDate(r.dataNascita) : '<span style="color:var(--text-dim)">—</span>'}</td>
       <td style="color:var(--text-muted)">${escHtml(String(r.tesseramento))}${isTesserato(r.tesseramento) && r.tesseramentoScad ? `<br><span style="color:var(--text-dim);font-size:10px;">fino al ${fmtDate(r.tesseramentoScad)}</span>` : ''}</td>
       <td style="color:var(--text-muted)">${escHtml(r.cellulare)}</td>
       <td style="color:var(--text-muted)">${escHtml(r.mail)}</td>
