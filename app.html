@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="style.css?v=26">
 <style>
   .table-wrap { overflow-x: auto; }
   .data-table thead th {
@@ -297,6 +297,7 @@
         Caricamento dati in corso…
       </div>
       <div id="dashContent">
+        <div id="dashCompleanni" class="dash-bday" style="display:none"></div>
         <div class="kpi-grid" id="dashKpiGrid">
           <div class="kpi-card">
             <div class="kpi-label">Allievi attivi <span id="kpiAllieviAS" style="font-weight:400;text-transform:none;letter-spacing:0;"></span></div>
@@ -484,12 +485,11 @@
       </div>
       <div id="personaleLoading" class="table-loading" style="display:none;"></div>
       <div class="table-wrap" id="personaleTableWrap" style="display:none;">
-        <table class="data-table" id="personaleTable">
+        <table class="data-table" id="personaleTable" data-bulk="personale">
           <thead>
             <tr>
               <th>Cognome</th>
               <th>Nome</th>
-              <th style="width:70px"></th>
             </tr>
           </thead>
           <tbody id="personaleBody"></tbody>
@@ -669,7 +669,7 @@
           <svg class="spin" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="var(--border)" stroke-width="2"/><path d="M9 2a7 7 0 0 1 7 7" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg>
           Caricamento…
         </div>
-        <table class="data-table" id="speseTable" data-mobile-cols="speseTable" style="display:none;">
+        <table class="data-table" id="speseTable" data-mobile-cols="speseTable" data-bulk="spese" style="display:none;">
           <thead>
             <tr>
               <th>Data</th>
@@ -678,7 +678,6 @@
               <th>Tipo</th>
               <th style="text-align:right">Importo</th>
               <th>Pagamento</th>
-              <th style="width:60px"></th>
             </tr>
           </thead>
           <tbody id="speseBody"></tbody>
@@ -833,7 +832,7 @@
         Caricamento…
       </div>
       <div style="display:none;" id="allieviTableWrap">
-        <table class="data-table" id="allieviTable" data-mobile-cols="allieviTable">
+        <table class="data-table" id="allieviTable" data-mobile-cols="allieviTable" data-bulk="allievi">
           <thead>
             <tr>
               <th>Nome completo</th>
@@ -842,7 +841,6 @@
               <th>Cellulare</th>
               <th>Mail</th>
               <th>Note</th>
-              <th style="width:72px"></th>
             </tr>
           </thead>
           <tbody id="allieviBody"></tbody>
@@ -900,7 +898,7 @@
         Caricamento…
       </div>
       <div style="display:none;" id="iscrizioniTableWrap">
-        <table class="data-table" id="iscrizioniTable" data-mobile-cols="iscrizioniTable">
+        <table class="data-table" id="iscrizioniTable" data-mobile-cols="iscrizioniTable" data-bulk="iscrizioni">
           <thead>
             <tr>
               <th>Allievo</th>
@@ -912,7 +910,6 @@
               <th>Pagato</th>
               <th style="text-align:right">Costo</th>
               <th>Note</th>
-              <th style="width:72px"></th>
             </tr>
           </thead>
           <tbody id="iscrizioniBody"></tbody>
@@ -1137,6 +1134,10 @@
           <label class="form-label">Nome</label>
           <input type="text" class="form-input" id="aNome" placeholder="Giulia">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data di nascita</label>
+        <input type="date" class="form-input" id="aDataNascita">
       </div>
       <div class="form-group">
           <label class="form-label">Tipo</label>
@@ -1590,6 +1591,21 @@
   </div>
 </div>
 
-<script type="module" src="app.js?v=27"></script>
+<!-- ── PANNELLO AZIONI DI GRUPPO (righe selezionate nelle tabelle) ── -->
+<div class="bulk-bar" id="bulkBar" role="toolbar" aria-label="Azioni sulle righe selezionate">
+  <span class="bulk-count" id="bulkCount"></span>
+  <button type="button" class="btn-secondary" id="bulkAll">Seleziona tutte</button>
+  <button type="button" class="btn-secondary" id="bulkEdit">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5l2 2L4 10H2v-2L8.5 1.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    Modifica
+  </button>
+  <button type="button" class="btn-secondary btn-del" id="bulkDelete">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 3h8M5 3V2h2v1M4 3v6M8 3v6M3 3l.5 7h5L9 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Elimina
+  </button>
+  <button type="button" class="bulk-close" id="bulkClose" title="Annulla selezione" aria-label="Annulla selezione">&times;</button>
+</div>
+
+<script type="module" src="app.js?v=29"></script>
 </body>
 </html>

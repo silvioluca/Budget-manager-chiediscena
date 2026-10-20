@@ -68,6 +68,16 @@ export async function fsAddMany(coll, datas) {
   return ids;
 }
 
+// Eliminazione multipla in batch (ogni blocco da 400 è atomico: tutto o niente)
+export async function fsDeleteMany(coll, ids) {
+  const CHUNK = 400;
+  for (let i = 0; i < ids.length; i += CHUNK) {
+    const batch = writeBatch(db);
+    for (const id of ids.slice(i, i + CHUNK)) batch.delete(doc(db, coll, id));
+    await batch.commit();
+  }
+}
+
 // Popup dove possibile; se l'ambiente non lo supporta
 // (browser embedded, popup bloccati) ripiega sul redirect.
 export async function signInWithGoogle() {

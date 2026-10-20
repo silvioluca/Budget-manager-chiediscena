@@ -213,6 +213,28 @@ html, body {
 }
 .section-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
+/* ─── AVVISO COMPLEANNI (striscia in dashboard, non una card) ── */
+.dash-bday {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border: 1px solid var(--accent-mid);
+  border-radius: var(--radius);
+  background: var(--accent-dim);
+  color: var(--text);
+  font-size: 13px;
+}
+.dash-bday-nome {
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dash-bday-eta { color: var(--text-muted); }
+
 /* ─── KPI GRID ───────────────────────────────────────── */
 .kpi-grid {
   display: grid;
@@ -580,6 +602,54 @@ html, body {
 }
 .btn-table:hover { border-color: var(--border2); color: var(--text); }
 .btn-table.btn-del:hover { border-color: rgba(224,85,85,0.3); color: var(--red); }
+
+/* ─── AZIONI DI GRUPPO: righe selezionabili al clic + pannello fluttuante ── */
+.data-table[data-bulk] tbody tr[data-bulk-id] { cursor: pointer; }
+.data-table[data-bulk] tbody tr.bulk-selected td { background: var(--accent-mid); }
+.data-table[data-bulk] tbody tr.bulk-selected td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+
+.bulk-bar {
+  position: fixed;
+  left: calc(50% + var(--sidebar-w) / 2);
+  bottom: 24px;
+  transform: translate(-50%, 16px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+  z-index: 190; /* sopra la bottom-nav, sotto le modali */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
+  max-width: calc(100vw - 32px);
+}
+.bulk-bar.open { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.bulk-bar .btn-secondary { padding: 8px 12px; white-space: nowrap; }
+.bulk-bar .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+.bulk-count { font-size: 13px; color: var(--text); white-space: nowrap; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.bulk-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; border-radius: 8px;
+  color: var(--text-muted); font-size: 20px; line-height: 1; cursor: pointer;
+}
+.bulk-close:hover { color: var(--text); background: var(--border); }
+
+@media (max-width: 1024px) {
+  .bulk-bar { left: 50%; }
+}
+@media (max-width: 768px) {
+  /* sopra la bottom-nav */
+  .bulk-bar { bottom: calc(72px + env(safe-area-inset-bottom)); gap: 6px; padding-left: 12px; flex-wrap: wrap; justify-content: center; }
+  .bulk-count { font-size: 12px; }
+}
+@media print {
+  .bulk-bar { display: none !important; }
+}
 
 /* Drag and drop riordino abbonamenti */
 .drag-handle-cell {
@@ -998,7 +1068,10 @@ body.light .pivot-total td {
   border-radius: 99px; border: 1px solid var(--border2);
   color: var(--text-muted); background: transparent;
 }
-.pres-elenco-actions { flex-shrink: 0; }
+/* righe dell'elenco selezionabili al clic (azioni di gruppo) */
+.pres-elenco-row[data-bulk-id] { cursor: pointer; }
+.pres-elenco-row.bulk-selected,
+.pres-elenco-row.bulk-selected:hover { background: var(--accent-mid); box-shadow: inset 3px 0 0 var(--accent); }
 
 /* Per corso */
 .pres-corso-card { margin-bottom: 12px; }
